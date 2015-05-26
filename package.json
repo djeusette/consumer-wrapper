@@ -1,0 +1,17 @@
+{
+  "name": "message-persister",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Message persister",
+  "main": "main.js",
+  "engines": {
+    "iojs": ">= 2.1.0"
+  },
+  "author": "David Jeusette",
+  "license": "TBD",
+  "dependencies": {
+    "amqplib": "^0.3.2",
+    "bluebird": "^2.9.26"
+  },
+  "devDependencies": {}
+}
