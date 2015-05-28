@@ -21,10 +21,24 @@ class Consumer {
   }
 
   start() {
-    return new Promise(function(resolve, reject) {
-      // TODO: connect to amqp and consume messages
-      resolve()
-    });
+    function logMessage(msg) {
+      console.log(" [x] %s:'%s'",
+                  msg.fields.routingKey,
+                  msg.content.toString())
+    }
+
+    return amqp.connect(this.url).then(function(conn) {
+      process.once("SIGINT", function() { conn.close(); });
+
+      return conn.createChannel().then(function(channel) {
+        return Promise.all([
+            channel.assertQueue("message-persister", {exclusive: false}),
+            channel.assertExchange("messages", "topic", {durable: true}),
+            channel.bindQueue("message-persister", "messages", "#"),
+            channel.consume("message-persister", logMessage, {noAck: true})
+          ])
+      })
+    })
   }
 }
 

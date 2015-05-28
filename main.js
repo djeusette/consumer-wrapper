@@ -13,7 +13,6 @@ let appAttributes = {
 
 if (cluster.isMaster) {
   let i;
-  // Fork workers.
   for (i = 0; i < cpuCount; i++) {
     cluster.fork();
   }
@@ -26,5 +25,7 @@ if (cluster.isMaster) {
 
   app.start().then(function() {
     console.log("worker " + process.pid + " started")
-  })
+  }).catch(function(err) {
+    console.warn("worker " + process.pid + " error: " + err.toString());
+  });
 }
