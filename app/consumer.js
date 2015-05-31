@@ -22,7 +22,8 @@ class Consumer {
 
   start() {
     function logMessage(msg) {
-      console.log(" [x] %s:'%s'",
+      console.log(" [%s] %s: '%s'",
+                  process.pid.toString(),
                   msg.fields.routingKey,
                   msg.content.toString())
     }

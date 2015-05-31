@@ -3,12 +3,21 @@
 "use strict";
 "use strong";
 
-const cpuCount = require("os").cpus().length
-let cluster    = require("cluster")
-let App        = require("./app/app")
+const cpuCount        = require("os").cpus().length
+let cluster           = require("cluster")
+let path              = require("path")
+let App               = require("./app/app")
+let Assembler         = require("./infrastructure/assembler")
+let configurationPath = path.join(__dirname, "config", "configuration");
 
-let appAttributes = {
-  amqpUrl: "amqp://localhost"
+function startApp() {
+  let assembler = new Assembler(App, configurationPath)
+  assembler.loadCompleteApp()
+  assembler.app.start().then(function() {
+    console.log("worker " + process.pid + " started")
+  }).catch(function(err) {
+    console.warn("worker " + process.pid + " error: " + err.toString());
+  })
 }
 
 if (cluster.isMaster) {
@@ -21,11 +30,5 @@ if (cluster.isMaster) {
     console.log("worker " + worker.process.pid + " died");
   });
 } else {
-  let app = new App(appAttributes)
-
-  app.start().then(function() {
-    console.log("worker " + process.pid + " started")
-  }).catch(function(err) {
-    console.warn("worker " + process.pid + " error: " + err.toString());
-  });
+  startApp()
 }

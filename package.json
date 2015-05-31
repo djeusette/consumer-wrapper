@@ -11,7 +11,8 @@
   "license": "TBD",
   "dependencies": {
     "amqplib": "^0.3.2",
-    "bluebird": "^2.9.26"
+    "bluebird": "^2.9.26",
+    "winston": "^1.0.0"
   },
   "devDependencies": {}
 }
