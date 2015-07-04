@@ -14,9 +14,10 @@ function startApp() {
   let assembler = new Assembler(App, configurationPath)
   assembler.loadCompleteApp()
   assembler.app.start().then(function() {
-    console.log("worker " + process.pid + " started")
+    assembler.app.logger.info("worker " + process.pid + " started")
   }).catch(function(err) {
-    console.warn("worker " + process.pid + " error: " + err.toString());
+    assembler.app.logger.error("worker " + process.pid + " error: " + err.toString());
+    process.exit(1);
   })
 }
 

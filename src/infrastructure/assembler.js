@@ -15,7 +15,7 @@ class Assembler {
     this.configurationPath = configurationPath;
     this.env               = process.env.NODE_ENV || "development";
     this.logger            = new winston.Logger({
-      transports: [new winston.transports.Console({level: process.env.LOG_LEVEL, colorize: true})]
+      transports: [new winston.transports.Console({level: process.env.LOG_LEVEL || "verbose", colorize: true})]
     });
   }
 

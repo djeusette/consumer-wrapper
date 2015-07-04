@@ -3,6 +3,7 @@ node_modules
 *~
 .#*
 .rvmrc
+.nvmrc
 doc/
 /**/tmp/
 npm-debug.log
