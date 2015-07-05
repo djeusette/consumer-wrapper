@@ -38,6 +38,13 @@ class PersisterConsumer extends AmqpConsumer {
     })
   }
 
+  logMessage(msg) {
+    this.logger.log("verbose", " [%s] %s: '%s'",
+                process.pid.toString(),
+                msg.fields.routingKey,
+                msg.content.toString())
+  }
+
   consumeMessage(msg) {
     let self = this
 
@@ -45,6 +52,18 @@ class PersisterConsumer extends AmqpConsumer {
       self.logMessage(msg)
       // TODO
       resolve()
+    })
+  }
+
+  stop() {
+    let self = this
+
+    return new Promise(function(resolve, reject) {
+      self.channel.close().then(function() {
+        self.connection.close()
+      }).then(function() {
+        return self.store.disconnect()
+      }).then(resolve).catch(reject)
     })
   }
 }

@@ -27,6 +27,12 @@ class Consumer {
       reject(new Error("TODO: implement"))
     })
   }
+
+  stop() {
+    return new Promise(function(resolve, reject) {
+      reject(new Error("TODO: implement"))
+    })
+  }
 }
 
 module.exports = Consumer

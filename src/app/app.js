@@ -54,6 +54,18 @@ class App {
       }).then(resolve).catch(reject)
     })
   }
+
+  stop() {
+    let self = this
+
+    return new Promise(function(resolve, reject) {
+      if (_.isNull(self.consumer)) {
+        return resolve()
+      }
+
+      return self.consumer.stop().then(resolve).catch(reject)
+    })
+  }
 }
 
 module.exports = App

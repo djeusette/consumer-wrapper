@@ -14,14 +14,9 @@ class AmqpConsumer extends Consumer {
       throw new Error("Missing AMQP attributes")
     }
 
-    this.amqp   = attributes.amqp
-  }
-
-  logMessage(msg) {
-    this.logger.verbose(" [%s] %s: '%s'",
-                process.pid.toString(),
-                msg.fields.routingKey,
-                msg.content.toString())
+    this.amqp       = attributes.amqp
+    this.connection = null
+    this.channel    = null
   }
 
   consumeMessage(msg) {
@@ -50,7 +45,11 @@ class AmqpConsumer extends Consumer {
       return amqp.connect(self.amqp.url).then(function(conn) {
         process.once("SIGINT", function() { conn.close(); });
 
+        self.connection = conn
+
         return conn.createChannel().then(function(channel) {
+          self.channel = channel
+
           return resolve(Promise.all([
               channel.assertQueue(self.amqp.queue, {exclusive: false}),
               channel.assertExchange(self.amqp.exchange, "topic", {durable: true}),
@@ -59,6 +58,16 @@ class AmqpConsumer extends Consumer {
             ]))
         })
       }).catch(reject);
+    })
+  }
+
+  stop() {
+    let self = this
+
+    return new Promise(function(resolve, reject) {
+      self.channel.close().then(function() {
+        self.connection.close()
+      }).then(resolve).catch(reject)
     })
   }
 }

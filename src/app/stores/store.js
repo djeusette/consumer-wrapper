@@ -18,6 +18,12 @@ class Store {
     })
   }
 
+  disconnect() {
+    return new Promise(function(resolve, reject) {
+      reject(new Error("TODO: implement"))
+    })
+  }
+
   initialize() {
     return new Promise(function(resolve, reject) {
       reject(new Error("TODO: implement"))

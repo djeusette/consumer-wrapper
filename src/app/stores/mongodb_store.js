@@ -52,6 +52,20 @@ class MongoDbStore extends Store {
     })
   }
 
+  disconnect() {
+    let self = this
+
+    return new Promise(function(resolve, reject) {
+      self.db.close(function(err) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
+  }
+
   initialize() {
     let self = this
 

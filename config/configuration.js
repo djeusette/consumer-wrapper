@@ -1,8 +1,8 @@
 "use strict";
 "use strong";
 
-let MongoDbStore      = require("../app/stores/mongodb_store")
-let PersisterConsumer = require("../app/consumers/persister_consumer")
+let MongoDbStore      = require("../src/app/stores/mongodb_store")
+let PersisterConsumer = require("../src/app/consumers/persister_consumer")
 
 let configuration = {
   production: {
