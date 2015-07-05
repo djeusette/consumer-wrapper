@@ -1,3 +1,3 @@
-# generic-consumer
+# consumer-wrapper
 
-Allows to consume any kind of data.  Just create your own consumer that extends the default Consumer class. 
+Allows to consume any kind of data.  Just create your own consumer that extends the default Consumer class.

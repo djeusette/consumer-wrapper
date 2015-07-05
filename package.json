@@ -1,7 +1,7 @@
 {
-  "name": "generic-consumer",
+  "name": "consumer-wrapper",
   "version": "0.1.0",
-  "description": "Generic consumer",
+  "description": "Wrapper for consumers",
   "main": "src/main.js",
   "engines": {
     "iojs": ">= 2.1.0"
