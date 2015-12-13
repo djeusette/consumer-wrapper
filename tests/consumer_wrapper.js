@@ -14,8 +14,8 @@ class ConsumerWrapper {
       throw new Error("Invalid concurrency")
     }
 
-    this.configurationPath = configurationPath
-    this.concurrency       = concurrency
+    this.configurationPath = configurationPath;
+    this.concurrency       = concurrency;
 
     let clusterSettings = {
       exec: path.resolve(__dirname, "loader"),

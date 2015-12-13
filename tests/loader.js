@@ -12,7 +12,7 @@ assembler.app.start().then(function() {
 }).catch(function(err) {
   assembler.app.logger.error("worker " + process.pid + " error: " + err.toString());
   process.exit(1);
-})
+});
 
 process.on("disconnect", function() {
   assembler.app.stop().then(function() {
@@ -20,5 +20,5 @@ process.on("disconnect", function() {
   }).catch(function(err) {
     assembler.app.logger.error("worker " + process.pid + " error while disconnecting: " + err.toString());
     process.exit(1)
-  })
-})
+  });
+});

@@ -51,7 +51,11 @@ class Assembler {
   }
 
   tearDownApp() {
-    console.log("Teardown app")
+    if (!this.app) {
+      throw new Error('No app was assembled');
+    }
+
+    this.app.stop();
   }
 
 }
