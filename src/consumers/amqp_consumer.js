@@ -6,65 +6,69 @@ let Promise  = require("bluebird");
 let _        = require("lodash");
 let Consumer = require("./consumer");
 
+let DEFAULT_AMQP_ATTRIBUTES = {
+  url: 'amqp://localhost',
+  queue: {
+    name: 'queue',
+    options: {}
+  },
+  exchange: {
+    name: 'exchange',
+    type: 'topic',
+    options: {}
+  },
+  routingKey: '#'
+};
+
 class AmqpConsumer extends Consumer {
   constructor(attributes) {
     super(attributes);
 
-    if (!_.isPlainObject(attributes.amqp)) {
-      throw new Error("Missing AMQP attributes");
-    }
-
-    this.amqp       = attributes.amqp;
+    this.amqp       = _.defaults(attributes.amqp, DEFAULT_AMQP_ATTRIBUTES);
     this.connection = null;
     this.channel    = null;
   }
 
-  consume(content) {
+  consume(message) {
     let self = this;
-
-    return new Promise(function(resolve, reject) {
-      self.logMessage(content);
-      resolve();
+    return super.consume(message).tap(function() {
+      return self.channel.ack(message);
+    }).tap(function() {
+      self.logMessage(message);
     });
   }
 
-  logMessage(msg) {
+  logMessage(message) {
     this.logger.log("verbose", " [%s] %s: '%s'",
       process.pid.toString(),
-      msg.fields.routingKey,
-      msg.content.toString());
+      message.fields.routingKey,
+      message.content.toString());
   }
 
   start() {
     let self = this;
 
     return new Promise(function(resolve, reject) {
-      if (!_.isString(self.amqp.url)) {
-        return reject(new Error("Missing AMQP url"));
+      if (!_.isPlainObject(self.amqp.queue)) {
+        return reject(new Error('Wrong AMQP queue attribute'));
       }
-      if (!_.isString(self.amqp.queue)) {
-        return reject(new Error("Missing AMQP queue"));
-      }
-      if (!_.isString(self.amqp.exchange)) {
-        return reject(new Error("Missing AMQP exchange"));
-      }
-      if (!_.isString(self.amqp.routingKey)) {
-        return reject(new Error("Missing AMQP routingKey"));
+      if (!_.isPlainObject(self.amqp.exchange)) {
+        return reject(new Error('Wrong AMQP exchange attribute'));
       }
 
-      return amqp.connect(self.amqp.url).then(function(conn) {
+      return amqp.connect(self.amqp.url).then(function(connection) {
         process.once("SIGINT", function() { self.stop(); });
 
-        self.connection = conn;
+        self.connection = connection;
 
-        return conn.createChannel().then(function(channel) {
+        return connection.createChannel().then(function(channel) {
           self.channel = channel;
 
           return resolve(Promise.all([
-              channel.assertQueue(self.amqp.queue, {exclusive: false}),
-              channel.assertExchange(self.amqp.exchange, "topic", {durable: true}),
-              channel.bindQueue(self.amqp.queue, self.amqp.exchange, self.amqp.routingKey),
-              channel.consume(self.amqp.queue, self.consume.bind(self), {noAck: true})
+              channel.assertQueue(self.amqp.queue.name, self.amqp.queue.options),
+              channel.assertExchange(self.amqp.exchange.name, self.amqp.exchange.type, self.amqp.exchange.options),
+              channel.bindQueue(self.amqp.queue.name, self.amqp.exchange.name, self.amqp.routingKey),
+              channel.consume(self.amqp.queue.name, self.consume.bind(self), self.amqp.queue.options)
             ]));
         });
       }).catch(reject);

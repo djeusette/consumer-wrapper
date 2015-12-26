@@ -19,17 +19,26 @@ class AmqpProducer extends Producer {
     this.channel    = null;
   }
 
-  publish(msg) {
+  logMessage(message) {
     this.logger.log("verbose", "[%s] Publish message \"%s\" on exchange \"%s\" with routing key \"%s\"",
-        process.pid.toString(),
-        msg.toString(),
-        this.amqp.exchange,
-        this.amqp.routingKey);
-
-    return this.channel.publish(this.amqp.exchange, this.amqp.routingKey, new Buffer(msg));
+      process.pid.toString(),
+      message.toString(),
+      this.amqp.exchange,
+      this.amqp.routingKey);
   }
 
-  initialize() {
+  publish(message, options) {
+    if (!_.isPlainObject(options)) {
+      options = {};
+    }
+
+    let self = this;
+    return Promise.resolve(this.channel.publish(this.amqp.exchange, this.amqp.routingKey, new Buffer(message), options)).tap(function() {
+      self.logMessage(message);
+    });
+  }
+
+  connect() {
     let self = this;
 
     return new Promise(function(resolve, reject) {
@@ -43,14 +52,14 @@ class AmqpProducer extends Producer {
         return reject(new Error("Missing AMQP routingKey"));
       }
 
-      return amqp.connect(self.amqp.url).then(function(conn) {
+      return amqp.connect(self.amqp.url).then(function(connection) {
         process.once("SIGINT", function() { self.destroy(); });
 
-        self.connection = conn;
+        self.connection = connection;
 
-        return conn.createChannel().then(function(channel) {
+        return connection.createChannel().then(function(channel) {
           self.channel = channel;
-          resolve(channel);
+          resolve(self);
         });
       }).catch(reject);
     });
