@@ -67,11 +67,8 @@ class AmqpProducer extends Producer {
 
   destroy() {
     let self = this;
-
-    return new Promise(function(resolve, reject) {
-      self.channel.close().then(function() {
-        self.connection.close();
-      }).then(resolve).catch(reject);
+    return self.channel.close().then(function() {
+      self.connection.close();
     });
   }
 }

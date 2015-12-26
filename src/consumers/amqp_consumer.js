@@ -32,7 +32,9 @@ class AmqpConsumer extends Consumer {
   consume(message) {
     let self = this;
     return super.consume(message).tap(function() {
-      return self.channel.ack(message);
+      if (!(_.isBoolean(self.amqp.queue.options.noAck) && self.amqp.queue.options.noAck)) {
+        self.channel.ack(message);
+      }
     }).tap(function() {
       self.logMessage(message);
     });
@@ -47,7 +49,6 @@ class AmqpConsumer extends Consumer {
 
   start() {
     let self = this;
-
     return new Promise(function(resolve, reject) {
       if (!_.isPlainObject(self.amqp.queue)) {
         return reject(new Error('Wrong AMQP queue attribute'));
@@ -77,7 +78,6 @@ class AmqpConsumer extends Consumer {
 
   stop() {
     let self = this;
-
     return self.channel.close().then(function() {
       return self.connection.close();
     });
