@@ -18,7 +18,7 @@ Producer.connect(attributes).then(function() {
     if (count > 0) {
       Producer.publish("Test " + count).then(function() {
         queue.push(--count);
-        callback();
+        async.setImmediate(callback);
       });
     } else {
       Producer.disconnect().then(callback);
