@@ -1,10 +1,7 @@
-"use strict";
-"use strong";
-
-let amqp         = require("amqplib");
-let Promise      = require("bluebird");
-let _            = require("lodash");
-let AmqpConsumer = require("./amqp_consumer");
+import amqp from 'amqplib';
+import Promise from 'bluebird';
+import _ from 'lodash';
+import AmqpConsumer from './amqp_consumer';
 
 class PersisterConsumer extends AmqpConsumer {
 
@@ -20,7 +17,7 @@ class PersisterConsumer extends AmqpConsumer {
   }
 
   initialize() {
-    let self = this;
+    const self = this;
 
     return new Promise(function(resolve, reject) {
       if (!_.isObject(self.storeAttributes.ctor)) {
@@ -39,7 +36,7 @@ class PersisterConsumer extends AmqpConsumer {
   }
 
   stop() {
-    let self = this;
+    const self = this;
 
     return self.channel.close().then(function() {
       return self.connection.close();
@@ -49,4 +46,4 @@ class PersisterConsumer extends AmqpConsumer {
   }
 }
 
-module.exports = PersisterConsumer;
+export default PersisterConsumer;

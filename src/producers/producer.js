@@ -1,9 +1,6 @@
-"use strict";
-"use strong";
-
-let Promise = require("bluebird");
-let _       = require("lodash");
-let winston = require("winston");
+import Promise  from 'bluebird';
+import _  from 'lodash';
+import winston from 'winston';
 
 let broker = null;
 
@@ -15,9 +12,11 @@ class Producer {
   }
 
   static disconnect() {
-    return broker.destroy().tap(function() {
-      broker = null;
-    });
+    if (Producer.connected()) {
+      return broker.destroy().tap(function() {
+        broker = null;
+      });
+    }
   }
 
   static connected() {
@@ -25,7 +24,7 @@ class Producer {
   }
 
   static publish(content, options) {
-    let self = this;
+    const self = this;
     return new Promise(function(resolve, reject) {
       if (!self.connected()) {
         return reject(new Error("Producer not connected"));
@@ -63,4 +62,4 @@ class Producer {
   }
 }
 
-module.exports = Producer;
+export default Producer;

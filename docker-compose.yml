@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  cw:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/app
+    logging:
+      driver: json-file
+      options:
+        max-size: '10k'
+        max-file: '3'

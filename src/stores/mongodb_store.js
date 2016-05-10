@@ -1,10 +1,7 @@
-"use strict";
-"use strong";
-
-let MongoClient = require("mongodb").MongoClient
-let Promise     = require("bluebird")
-let _           = require("lodash")
-let Store       = require("./store")
+import { MongoClient } from 'mongodb';
+import Promise from 'bluebird';
+import _ from 'lodash';
+import Store from './store';
 
 function parseUri(uri) {
   let regex = /(.+\/\/.+\/.+)\/([^\/\?]+)(\?.+){0,1}$/
@@ -31,7 +28,7 @@ class MongoDbStore extends Store {
       throw new Error("Missing uri")
     }
 
-    let parsedUri       = parseUri(attributes.uri)
+    const parsedUri       = parseUri(attributes.uri)
     this.uri            = parsedUri.dbUri
     this.collectionName = parsedUri.collectionName
     this.db             = null
@@ -39,7 +36,7 @@ class MongoDbStore extends Store {
   }
 
   connect() {
-    let self = this
+    const self = this
 
     return new Promise(function(resolve, reject) {
       MongoClient.connect(self.uri, function(err, db) {
@@ -53,7 +50,7 @@ class MongoDbStore extends Store {
   }
 
   disconnect() {
-    let self = this
+    const self = this
 
     return new Promise(function(resolve, reject) {
       self.db.close(function(err) {
@@ -67,7 +64,7 @@ class MongoDbStore extends Store {
   }
 
   initialize() {
-    let self = this
+    const self = this
 
     return new Promise(function(resolve, reject) {
       if (_.isNull(self.db)) {
@@ -91,4 +88,4 @@ class MongoDbStore extends Store {
   }
 }
 
-module.exports = MongoDbStore
+export default MongoDbStore;

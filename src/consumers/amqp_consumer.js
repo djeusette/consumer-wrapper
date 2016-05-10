@@ -1,12 +1,9 @@
-"use strict";
-"use strong";
+import amqp from 'amqplib';
+import Promise  from 'bluebird';
+import _  from 'lodash';
+import Consumer from './consumer';
 
-let amqp     = require("amqplib");
-let Promise  = require("bluebird");
-let _        = require("lodash");
-let Consumer = require("./consumer");
-
-let DEFAULT_AMQP_ATTRIBUTES = {
+const DEFAULT_AMQP_ATTRIBUTES = {
   url: 'amqp://localhost',
   queue: {
     name: 'queue',
@@ -30,7 +27,7 @@ class AmqpConsumer extends Consumer {
   }
 
   consume(message) {
-    let self = this;
+    const self = this;
     return super.consume(message).tap(function() {
       if (!(_.isBoolean(self.amqp.queue.options.noAck) && self.amqp.queue.options.noAck)) {
         self.channel.ack(message);
@@ -84,4 +81,4 @@ class AmqpConsumer extends Consumer {
   }
 }
 
-module.exports = AmqpConsumer;
+export default AmqpConsumer;

@@ -11,3 +11,6 @@ npm-debug.log
 *.log
 dump.rdb
 *.pid
+.npm
+.bash_history
+dist
