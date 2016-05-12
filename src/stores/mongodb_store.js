@@ -128,9 +128,15 @@ class MongoDbStore extends Store {
       incrementPayload[`data.${key}`] = value;
     }
 
-    payload['$set']   = dataPayload;
-    payload['$unset'] = unsetDataPayload;
-    payload['$inc']   = incrementPayload;
+    if (Object.keys(dataPayload).length !== 0) {
+      payload['$set'] = dataPayload;
+    }
+    if (Object.keys(unsetDataPayload).length !== 0) {
+      payload['$unset'] = unsetDataPayload;
+    }
+    if (Object.keys(incrementPayload).length !== 0) {
+      payload['$inc'] = incrementPayload;
+    }
 
     return this.collection.update(query, payload, options);
   }

@@ -104,7 +104,7 @@ var MongoDbStore = function (_Store) {
           return reject(new Error("Database instance not found"));
         }
 
-        self.db.createCollection(self.collectionName, { w: true }, function (err, collection) {
+        self.db.createCollection(self.collectionName, { w: 1 }, function (err, collection) {
           if (err) {
             self.db.close(function (closingErr) {
               if (closingErr) {
@@ -138,12 +138,12 @@ var MongoDbStore = function (_Store) {
     value: function upsert(attributes) {
       var increments = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-      return this.genericUpdate(attributes, increments, { w: true, upsert: true });
+      return this.genericUpdate(attributes, increments, { w: 1, upsert: true });
     }
   }, {
     key: 'genericUpdate',
     value: function genericUpdate(attributes, increments) {
-      var options = arguments.length <= 2 || arguments[2] === undefined ? { w: true } : arguments[2];
+      var options = arguments.length <= 2 || arguments[2] === undefined ? { w: 1 } : arguments[2];
 
       if (!attributes.uid) {
         throw new Error("Missing UID");
