@@ -1,13 +1,14 @@
 {
   "name": "consumer-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Wrapper for consumers",
   "main": "dist/main.js",
   "author": "David Jeusette",
   "license": "TBD",
   "scripts": {
     "eslint": "eslint src",
-    "build": "rm -rf dist/* & babel src --out-dir dist/"
+    "build": "rm -rf dist/* & babel src --out-dir dist/",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "amqplib": "^0.4.1",
