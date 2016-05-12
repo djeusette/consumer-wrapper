@@ -8,10 +8,10 @@ import MongoDbStore from './stores/mongodb_store';
 
 export {
   Consumer,
+  AmqpConsumer,
   AmqpProducer,
   PersisterConsumer,
   Producer,
-  AmqpProducer,
   Store,
   MongoDbStore
 };
