@@ -71,7 +71,7 @@ class MongoDbStore extends Store {
         return reject(new Error("Database instance not found"));
       }
 
-      self.db.createCollection(self.collectionName, { w: true }, function(err, collection) {
+      self.db.createCollection(self.collectionName, { w: 1 }, function(err, collection) {
         if (err) {
           self.db.close(function(closingErr) {
             if (closingErr) {
@@ -96,10 +96,10 @@ class MongoDbStore extends Store {
   }
 
   upsert(attributes, increments = {}) {
-    return this.genericUpdate(attributes, increments, { w: true, upsert: true });
+    return this.genericUpdate(attributes, increments, { w: 1, upsert: true });
   }
 
-  genericUpdate(attributes, increments, options = { w: true }) {
+  genericUpdate(attributes, increments, options = { w: 1 }) {
     if (!attributes.uid) {
       throw new Error("Missing UID");
     }

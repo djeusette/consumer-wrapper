@@ -72,6 +72,8 @@ var Store = function () {
   }, {
     key: 'upsert',
     value: function upsert(attributes) {
+      var increments = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
       return new _bluebird2.default(function (resolve, reject) {
         reject(new Error("TODO: implement"));
       });
@@ -79,6 +81,8 @@ var Store = function () {
   }, {
     key: 'update',
     value: function update(attributes) {
+      var increments = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
       return new _bluebird2.default(function (resolve, reject) {
         reject(new Error("TODO: implement"));
       });
