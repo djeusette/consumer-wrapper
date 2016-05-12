@@ -1,6 +1,6 @@
 {
   "name": "consumer-wrapper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Wrapper for consumers",
   "main": "dist/main.js",
   "author": "David Jeusette",
