@@ -3,66 +3,42 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.MongoDbStore = exports.Store = exports.Producer = exports.PersisterConsumer = exports.AmqpProducer = exports.Consumer = undefined;
 
 var _consumer = require('./consumers/consumer');
 
-Object.defineProperty(exports, 'Consumer', {
-  enumerable: true,
-  get: function get() {
-    return _consumer.Consumer;
-  }
-});
+var _consumer2 = _interopRequireDefault(_consumer);
 
 var _amqp_consumer = require('./consumers/amqp_consumer');
 
-Object.defineProperty(exports, 'AmqpConsumer', {
-  enumerable: true,
-  get: function get() {
-    return _amqp_consumer.AmqpConsumer;
-  }
-});
+var _amqp_consumer2 = _interopRequireDefault(_amqp_consumer);
 
 var _persister_consumer = require('./consumers/persister_consumer');
 
-Object.defineProperty(exports, 'PersisterConsumer', {
-  enumerable: true,
-  get: function get() {
-    return _persister_consumer.PersisterConsumer;
-  }
-});
+var _persister_consumer2 = _interopRequireDefault(_persister_consumer);
 
 var _producer = require('./producers/producer');
 
-Object.defineProperty(exports, 'Producer', {
-  enumerable: true,
-  get: function get() {
-    return _producer.Producer;
-  }
-});
+var _producer2 = _interopRequireDefault(_producer);
 
 var _amqp_producer = require('./producers/amqp_producer');
 
-Object.defineProperty(exports, 'AmqpProducer', {
-  enumerable: true,
-  get: function get() {
-    return _amqp_producer.AmqpProducer;
-  }
-});
+var _amqp_producer2 = _interopRequireDefault(_amqp_producer);
 
 var _store = require('./stores/store');
 
-Object.defineProperty(exports, 'Store', {
-  enumerable: true,
-  get: function get() {
-    return _store.Store;
-  }
-});
+var _store2 = _interopRequireDefault(_store);
 
 var _mongodb_store = require('./stores/mongodb_store');
 
-Object.defineProperty(exports, 'MongoDbStore', {
-  enumerable: true,
-  get: function get() {
-    return _mongodb_store.MongoDbStore;
-  }
-});
+var _mongodb_store2 = _interopRequireDefault(_mongodb_store);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Consumer = _consumer2.default;
+exports.AmqpProducer = _amqp_producer2.default;
+exports.PersisterConsumer = _persister_consumer2.default;
+exports.Producer = _producer2.default;
+exports.AmqpProducer = _amqp_producer2.default;
+exports.Store = _store2.default;
+exports.MongoDbStore = _mongodb_store2.default;
