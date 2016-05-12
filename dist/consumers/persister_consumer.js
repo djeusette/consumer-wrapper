@@ -59,7 +59,7 @@ var PersisterConsumer = function (_AmqpConsumer) {
           throw new Error("Missing store constructor attributes");
         }
 
-        self.store = new self.storeAttributes.ctor(self.storeAttributes.attributes);
+        self.store = new self.storeAttributes.ctor(attributes.store.attributes);
         return self.store.connect().then(function () {
           return self.store.initialize();
         });

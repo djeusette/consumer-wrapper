@@ -21,7 +21,8 @@ class PersisterConsumer extends AmqpConsumer {
         throw new Error("Missing store constructor attributes");
       }
 
-      self.store = new self.storeAttributes.ctor(attributes.store.attributes);
+      const { ctor, attributes: attr } = attributes.store;
+      self.store = new ctor(attr);
       return self.store.connect().then(function() {
         return self.store.initialize();
       });
