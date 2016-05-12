@@ -5,33 +5,26 @@ import AmqpConsumer from './amqp_consumer';
 
 class PersisterConsumer extends AmqpConsumer {
 
-  constructor(attributes) {
-    super(attributes)
-
-    if (!_.isPlainObject(attributes.store)) {
-      throw new Error("Missing store attributes");
-    }
-
-    this.storeAttributes = attributes.store;
-    this.store           = null;
-  }
-
-  initialize() {
+  initialize(attributes) {
     const self = this;
 
-    return new Promise(function(resolve, reject) {
-      if (!_.isObject(self.storeAttributes.ctor)) {
-        return reject(new Error("Missing store constructor"));
+    return super.initialize(attributes).then((consumer) => {
+      if (!_.isPlainObject(attributes.store)) {
+        throw new Error("Missing store attributes");
       }
 
-      if (!_.isPlainObject(self.storeAttributes.attributes)) {
-        return reject(new Error("Missing store constructor attributes"));
+      if (!_.isObject(attributes.store.ctor)) {
+        throw new Error("Missing store constructor");
+      }
+
+      if (!_.isPlainObject(attributes.store.attributes)) {
+        throw new Error("Missing store constructor attributes");
       }
 
       self.store = new self.storeAttributes.ctor(self.storeAttributes.attributes);
       return self.store.connect().then(function() {
-        return self.store.initialize().then(resolve);
-      }).catch(reject);
+        return self.store.initialize();
+      });
     });
   }
 

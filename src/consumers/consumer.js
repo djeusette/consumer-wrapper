@@ -5,7 +5,7 @@ import winston from 'winston';
 class Consumer {
   static consume(attributes) {
     const consumer = new this(attributes);
-    return consumer.initialize().then(function() {
+    return consumer.initialize(attributes).then(function() {
       return consumer.start();
     }).then(function() {
       return consumer;
@@ -16,24 +16,27 @@ class Consumer {
     if (!_.isPlainObject(attributes)) {
       throw new Error("Missing attributes");
     }
-    if (!_.isObject(attributes.handler)) {
-      throw new Error("Missing handler");
-    }
 
     this.logger = _.isObject(attributes.logger) ? attributes.logger : new winston.Logger({
       transports: [new winston.transports.Console({level: process.env.LOG_LEVEL || 'verbose', colorize: true})]
     });
-
-    this.handler = attributes.handler.bind(this);
   }
 
   consume(item) {
     return Promise.resolve(this.handler(item));
   }
 
-  initialize() {
+  initialize(attributes) {
+    const self = this;
     return new Promise(function(resolve, reject) {
-      resolve();
+      if (!_.isPlainObject(attributes)) {
+        return reject(new Error("Missing attributes"));
+      }
+      if (!_.isObject(attributes.handler)) {
+        return reject(new Error("Missing handler"));
+      }
+      self.handler = attributes.handler.bind(this);
+      resolve(self);
     });
   }
 
