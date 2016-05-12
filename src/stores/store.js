@@ -57,7 +57,7 @@ class Store {
     })
   }
 
-  delete(attributes) {
+  delete(uid) {
     return new Promise(function(resolve, reject) {
       reject(new Error("TODO: implement"))
     })
