@@ -24,7 +24,7 @@ class Consumer {
       transports: [new winston.transports.Console({level: process.env.LOG_LEVEL || 'verbose', colorize: true})]
     });
 
-    this.handler = attributes.handler;
+    this.handler = attributes.handler.bind(this);
   }
 
   consume(item) {
