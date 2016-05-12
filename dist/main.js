@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MongoDbStore = exports.Store = exports.Producer = exports.PersisterConsumer = exports.AmqpProducer = exports.Consumer = undefined;
+exports.MongoDbStore = exports.Store = exports.Producer = exports.PersisterConsumer = exports.AmqpProducer = exports.AmqpConsumer = exports.Consumer = undefined;
 
 var _consumer = require('./consumers/consumer');
 
@@ -36,9 +36,9 @@ var _mongodb_store2 = _interopRequireDefault(_mongodb_store);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Consumer = _consumer2.default;
+exports.AmqpConsumer = _amqp_consumer2.default;
 exports.AmqpProducer = _amqp_producer2.default;
 exports.PersisterConsumer = _persister_consumer2.default;
 exports.Producer = _producer2.default;
-exports.AmqpProducer = _amqp_producer2.default;
 exports.Store = _store2.default;
 exports.MongoDbStore = _mongodb_store2.default;

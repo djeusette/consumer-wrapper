@@ -21,7 +21,7 @@ class AmqpConsumer extends Consumer {
   constructor(attributes) {
     super(attributes);
 
-    this.amqp       = _.defaults(attributes.amqp, DEFAULT_AMQP_ATTRIBUTES);
+    this.amqp       = _.defaultsDeep(attributes.amqp, DEFAULT_AMQP_ATTRIBUTES);
     this.connection = null;
     this.channel    = null;
   }

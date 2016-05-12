@@ -54,7 +54,7 @@ var AmqpConsumer = function (_Consumer) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AmqpConsumer).call(this, attributes));
 
-    _this.amqp = _lodash2.default.defaults(attributes.amqp, DEFAULT_AMQP_ATTRIBUTES);
+    _this.amqp = _lodash2.default.defaultsDeep(attributes.amqp, DEFAULT_AMQP_ATTRIBUTES);
     _this.connection = null;
     _this.channel = null;
     return _this;
