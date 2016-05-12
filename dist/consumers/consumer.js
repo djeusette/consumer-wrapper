@@ -27,7 +27,7 @@ var Consumer = function () {
     key: 'consume',
     value: function consume(attributes) {
       var consumer = new this(attributes);
-      return consumer.initialize().then(function () {
+      return consumer.initialize(attributes).then(function () {
         return consumer.start();
       }).then(function () {
         return consumer;
@@ -41,15 +41,10 @@ var Consumer = function () {
     if (!_lodash2.default.isPlainObject(attributes)) {
       throw new Error("Missing attributes");
     }
-    if (!_lodash2.default.isObject(attributes.handler)) {
-      throw new Error("Missing handler");
-    }
 
     this.logger = _lodash2.default.isObject(attributes.logger) ? attributes.logger : new _winston2.default.Logger({
       transports: [new _winston2.default.transports.Console({ level: process.env.LOG_LEVEL || 'verbose', colorize: true })]
     });
-
-    this.handler = attributes.handler.bind(this);
   }
 
   _createClass(Consumer, [{
@@ -59,9 +54,17 @@ var Consumer = function () {
     }
   }, {
     key: 'initialize',
-    value: function initialize() {
+    value: function initialize(attributes) {
+      var self = this;
       return new _bluebird2.default(function (resolve, reject) {
-        resolve();
+        if (!_lodash2.default.isPlainObject(attributes)) {
+          return reject(new Error("Missing attributes"));
+        }
+        if (!_lodash2.default.isObject(attributes.handler)) {
+          return reject(new Error("Missing handler"));
+        }
+        self.handler = attributes.handler.bind(this);
+        resolve(self);
       });
     }
   }, {
