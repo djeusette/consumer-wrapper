@@ -13,5 +13,4 @@ dump.rdb
 *.pid
 .npm
 .bash_history
-dist
 .node_repl_history
