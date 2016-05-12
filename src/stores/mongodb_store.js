@@ -87,18 +87,16 @@ class MongoDbStore extends Store {
     })
   }
 
-  persist(attributes) {
-    return this.upsert(attributes);
+  persist(attributes, increments = {}) {
+    return this.upsert(attributes, increments);
   }
 
-  update(params) {
-    const { attributes, increments, options } = params;
-    return this.genericUpdate(attributes, increments, options);
+  update(attributes, increments = {}) {
+    return this.genericUpdate(attributes, increments);
   }
 
-  upsert(params) {
-    const { attributes, increments, options } = params;
-    return this.genericUpdate(attributes, increments, _.merge(options, { upsert: true }));
+  upsert(attributes, increments = {}) {
+    return this.genericUpdate(attributes, increments, { w: true, upsert: true });
   }
 
   genericUpdate(attributes, increments, options = { w: true }) {

@@ -45,13 +45,13 @@ class Store {
     })
   }
 
-  upsert(attributes) {
+  upsert(attributes, increments = {}) {
     return new Promise(function(resolve, reject) {
       reject(new Error("TODO: implement"))
     })
   }
 
-  update(attributes) {
+  update(attributes, increments = {}) {
     return new Promise(function(resolve, reject) {
       reject(new Error("TODO: implement"))
     })

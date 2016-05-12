@@ -122,25 +122,23 @@ var MongoDbStore = function (_Store) {
   }, {
     key: 'persist',
     value: function persist(attributes) {
-      return this.upsert(attributes);
+      var increments = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+      return this.upsert(attributes, increments);
     }
   }, {
     key: 'update',
-    value: function update(params) {
-      var attributes = params.attributes;
-      var increments = params.increments;
-      var options = params.options;
+    value: function update(attributes) {
+      var increments = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-      return this.genericUpdate(attributes, increments, options);
+      return this.genericUpdate(attributes, increments);
     }
   }, {
     key: 'upsert',
-    value: function upsert(params) {
-      var attributes = params.attributes;
-      var increments = params.increments;
-      var options = params.options;
+    value: function upsert(attributes) {
+      var increments = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-      return this.genericUpdate(attributes, increments, _lodash2.default.merge(options, { upsert: true }));
+      return this.genericUpdate(attributes, increments, { w: true, upsert: true });
     }
   }, {
     key: 'genericUpdate',
