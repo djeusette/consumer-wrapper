@@ -45,7 +45,7 @@ class AmqpConsumer extends Consumer {
   }
 
   start() {
-    let self = this;
+    const self = this;
     return new Promise(function(resolve, reject) {
       if (!_.isPlainObject(self.amqp.queue)) {
         return reject(new Error('Wrong AMQP queue attribute'));
@@ -74,7 +74,7 @@ class AmqpConsumer extends Consumer {
   }
 
   stop() {
-    let self = this;
+    const self = this;
     return self.channel.close().then(function() {
       return self.connection.close();
     });
