@@ -1,8 +1,5 @@
-"use strict";
-"use strong";
-
-let Promise = require("bluebird")
-let _       = require("lodash")
+import Promise from 'bluebird';
+import _ from 'lodash';
 
 class Store {
 
@@ -60,7 +57,7 @@ class Store {
     })
   }
 
-  delete(attributes) {
+  delete(uid) {
     return new Promise(function(resolve, reject) {
       reject(new Error("TODO: implement"))
     })
@@ -85,4 +82,4 @@ class Store {
   }
 }
 
-module.exports = Store
+export default Store;

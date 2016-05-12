@@ -1,13 +1,10 @@
-"use strict";
-"use strong";
-
-let Promise = require("bluebird");
-let _       = require("lodash");
-let winston = require("winston");
+import Promise from 'bluebird';
+import _ from 'lodash';
+import winston from 'winston';
 
 class Consumer {
   static consume(attributes) {
-    let consumer = new this(attributes);
+    const consumer = new this(attributes);
     return consumer.initialize().then(function() {
       return consumer.start();
     }).then(function() {
@@ -53,5 +50,5 @@ class Consumer {
   }
 }
 
-module.exports = Consumer;
+export default Consumer;
 

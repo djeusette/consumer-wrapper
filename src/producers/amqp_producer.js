@@ -1,10 +1,7 @@
-"use strict";
-"use strong";
-
-let amqp     = require("amqplib");
-let Promise  = require("bluebird");
-let _        = require("lodash");
-let Producer = require("./producer");
+import amqp from 'amqplib';
+import Promise  from 'bluebird';
+import _  from 'lodash';
+import Producer from './producer';
 
 class AmqpProducer extends Producer {
   constructor(attributes) {
@@ -32,14 +29,14 @@ class AmqpProducer extends Producer {
       options = {};
     }
 
-    let self = this;
+    const self = this;
     return Promise.resolve(this.channel.publish(this.amqp.exchange, this.amqp.routingKey, new Buffer(message), options)).tap(function() {
       self.logMessage(message);
     });
   }
 
   connect() {
-    let self = this;
+    const self = this;
 
     return new Promise(function(resolve, reject) {
       if (!_.isString(self.amqp.url)) {
@@ -66,11 +63,11 @@ class AmqpProducer extends Producer {
   }
 
   destroy() {
-    let self = this;
+    const self = this;
     return self.channel.close().then(function() {
       self.connection.close();
     });
   }
 }
 
-module.exports = AmqpProducer;
+export default AmqpProducer;
