@@ -173,9 +173,15 @@ var MongoDbStore = function (_Store) {
         incrementPayload['data.' + _key] = _value;
       }
 
-      payload['$set'] = dataPayload;
-      payload['$unset'] = unsetDataPayload;
-      payload['$inc'] = incrementPayload;
+      if (Object.keys(dataPayload).length !== 0) {
+        payload['$set'] = dataPayload;
+      }
+      if (Object.keys(unsetDataPayload).length !== 0) {
+        payload['$unset'] = unsetDataPayload;
+      }
+      if (Object.keys(incrementPayload).length !== 0) {
+        payload['$inc'] = incrementPayload;
+      }
 
       return this.collection.update(query, payload, options);
     }

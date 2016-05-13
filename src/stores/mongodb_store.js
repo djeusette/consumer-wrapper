@@ -111,9 +111,8 @@ class MongoDbStore extends Store {
     const unsetDataPayload = {};
     const incrementPayload = {};
 
-    for (let key in Object.keys(attributes)) {
-      const value = attributes.key;
-
+    for (const key of Object.keys(attributes)) {
+      const value = attributes[key];
       if (value instanceof Buffer) {
         dataPayload[`_attachments.${key}`] = value;
       } else if (_.isNull(value)) {
@@ -123,8 +122,8 @@ class MongoDbStore extends Store {
       }
     }
 
-    for (let key in Object.keys(increments)) {
-      const value = increments.key;
+    for (const key of Object.keys(increments)) {
+      const value = increments[key];
       incrementPayload[`data.${key}`] = value;
     }
 
@@ -158,8 +157,8 @@ class MongoDbStore extends Store {
   formatParams(params) {
     const formattedParams = {}
 
-    for (let key in Object.keys(params)) {
-      const value = params.key;
+    for (const key of Object.keys(params)) {
+      const value = params[key];
 
       if (value instanceof Array) {
 
